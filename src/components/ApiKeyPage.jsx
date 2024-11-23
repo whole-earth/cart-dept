@@ -29,9 +29,9 @@ export const ApiKeyPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center">
       <img 
-        src="/cart-dept/logo.png" 
+        src="/logo.png" 
         alt="Logo" 
-        className="w-[200px] md:h-[200px] my-[10px] object-contain"
+        className="w-[200px] my-[10px] object-contain"
       />
       <div className="max-w-md w-full px-6">
         <form onSubmit={handleSubmit} className="space-y-4">
