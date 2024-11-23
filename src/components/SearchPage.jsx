@@ -37,6 +37,12 @@ export const SearchPage = () => {
   }, []);
 
   const handleQuery = async (query) => {
+    const apiKey = localStorage.getItem('openaiApiKey');
+    if (!apiKey) {
+      console.error('No API key found in localStorage');
+      navigate('/'); // Redirect to API key page
+      return;
+    }
     setLoading(true);
     try {
       const cachedResult = await getCachedResult(query);

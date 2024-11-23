@@ -2,7 +2,13 @@ import OpenAI from 'openai';
 
     // Initialize the OpenAI client with API key from environment or localStorage
     const openai = new OpenAI({
-      apiKey: import.meta.env.VITE_OPENAI_API_KEY || localStorage.getItem('openaiApiKey'),
+      apiKey: (() => {
+        const envKey = import.meta.env.VITE_OPENAI_API_KEY;
+        const localKey = localStorage.getItem('openaiApiKey');
+        console.log('ENV Key:', envKey);
+        console.log('Local Storage Key:', localKey);
+        return envKey || localKey;
+      })(),
       dangerouslyAllowBrowser: true
     });
 
