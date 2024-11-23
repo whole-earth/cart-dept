@@ -27,35 +27,42 @@ export const ApiKeyPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            OpenAI API Key (required)
-          </label>
-          <input
-            type="password"
-            value={openaiKey}
-            onChange={(e) => setOpenaiKey(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Serper API Key (optional)
-          </label>
-          <input
-            type="password"
-            value={serperKey}
-            onChange={(e) => setSerperKey(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <Button type="submit" className="w-full">
-          Save Keys
-        </Button>
-      </form>
+    <div className="min-h-screen flex flex-col items-center">
+      <img 
+        src="/cart-dept/logo.png" 
+        alt="Logo" 
+        className="w-[200px] md:h-[200px] my-[10px] object-contain"
+      />
+      <div className="max-w-md w-full px-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              OpenAI API Key (required)
+            </label>
+            <input
+              type="password"
+              value={openaiKey}
+              onChange={(e) => setOpenaiKey(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Serper API Key (optional)
+            </label>
+            <input
+              type="password"
+              value={serperKey}
+              onChange={(e) => setSerperKey(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <Button type="submit" className="w-full">
+            Save Keys
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };
