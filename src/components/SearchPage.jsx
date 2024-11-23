@@ -1,5 +1,5 @@
 // src/components/SearchPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "./ui/button";
 import { useLocalDB } from '../hooks/useLocalDB';
@@ -17,6 +17,24 @@ export const SearchPage = () => {
   const [inputQuery, setInputQuery] = useState('');
   const navigate = useNavigate();
   const { getCachedResult, cacheResult } = useLocalDB();
+
+  React.useEffect(() => {
+    const cacheExampleQueries = async () => {
+      for (const query of EXAMPLE_QUERIES) {
+        const cached = await getCachedResult(query);
+        if (!cached) {
+          try {
+            const themes = await fetchRelatedThemes(query);
+            await cacheResult(query, themes);
+          } catch (error) {
+            console.error(`Error caching example query "${query}":`, error);
+          }
+        }
+      }
+    };
+
+    cacheExampleQueries();
+  }, []);
 
   const handleQuery = async (query) => {
     setLoading(true);
