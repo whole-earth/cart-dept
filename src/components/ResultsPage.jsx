@@ -57,7 +57,7 @@ export const ResultsPage = () => {
       console.log('existingTopic:', existingTopic);
       
       const topicImages = existingTopic?.images || newRelatedData.mainTopicImages;
-      console.log('topicImages:', topicImages);
+      //console.log('topicImages:', topicImages);
 
       setCurrentState({
         currentTopic: newTopic,
@@ -183,21 +183,14 @@ export const ResultsPage = () => {
             }}
           >
             <Card className="p-3 text-center">
-              <div className="w-full h-full relative">
-                {/* Loading skeleton */}
-                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-                
+              <div className="w-full aspect-square rounded-lg mb-2 overflow-hidden">
                 <img 
-                  src={currentState.currentImages?.[currentImageIndex]?.url}
+                  src={currentState.currentImages?.[0]?.url} 
                   alt=""
-                  className="w-full h-full object-contain relative z-10"
+                  className="w-full h-full object-cover"
                   onError={handleImageError}
                   loading="lazy"
                   crossOrigin="anonymous"
-                  onLoad={(e) => {
-                    // Remove loading skeleton when image loads
-                    e.target.previousSibling?.remove();
-                  }}
                 />
               </div>
               <CardTitle className="text-sm font-medium truncate">
@@ -301,7 +294,7 @@ export const ResultsPage = () => {
                   className="w-full h-full object-contain"
                   onError={handleImageError}
                   loading="lazy"
-                  crossOrigin="anonymous"
+                  crossOrigin="anonymous" // Try this if images are failing due to CORS
                 />
               )}
               

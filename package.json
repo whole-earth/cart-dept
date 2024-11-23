@@ -3,10 +3,9 @@
       "version": "0.1.0",
       "private": true,
       "scripts": {
-            "dev": "concurrently \"npm run server\" \"vite\"",
+            "dev": "vite",
             "build": "vite build",
-            "server": "node server/index.js",
-            "start": "NODE_ENV=production node server/index.js"
+            "preview": "vite preview"
       },
       "dependencies": {
             "@radix-ui/react-slot": "^1.1.0",

@@ -76,17 +76,48 @@ export const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [inputQuery, setInputQuery] = useState('');
   const navigate = useNavigate();
+  const { getCachedResult, cacheResult } = useLocalDB();
+
+  React.useEffect(() => {
+    const cacheExampleQueries = async () => {
+      for (const query of EXAMPLE_QUERIES) {
+        const cached = await getCachedResult(query);
+        if (!cached) {
+          try {
+            const themes = EXAMPLE_QUERIES_DATA[query] || await fetchRelatedThemes(query);
+            await cacheResult(query, themes);
+          } catch (error) {
+            console.error(`Error caching example query "${query}":`, error);
+          }
+        }
+      }
+    };
+
+    cacheExampleQueries();
+  }, []);
 
   const handleQuery = async (query) => {
+    const apiKey = localStorage.getItem('openaiApiKey') || import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error('No API key found in localStorage or environment variables');
+      navigate('/'); // Redirect to API key page
+      return;
+    }
     setLoading(true);
     try {
+      const cachedResult = await getCachedResult(query);
+      if (cachedResult) {
+        navigate('/results', { 
+          state: { currentTopic: query, relatedTopics: cachedResult }
+        });
+        return;
+      }
+
       const themes = await fetchRelatedThemes(query);
+      await cacheResult(query, themes);
+      
       navigate('/results', {
-        state: { 
-          currentTopic: query, 
-          relatedTopics: themes.related_topics,
-          mainTopicImages: themes.mainTopicImages
-        }
+        state: { currentTopic: query, relatedTopics: themes }
       });
     } catch (error) {
       console.error('Error handling query:', error);
